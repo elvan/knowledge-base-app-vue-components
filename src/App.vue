@@ -4,7 +4,7 @@
       :topic-title="activeTopic && activeTopic.title"
       :text="activeTopic && activeTopic.fullText"
     ></active-element>
-    <knowledge-base :topics="topics" @select-topic="activateTopic"></knowledge-base>
+    <knowledge-base @select-topic="activateTopic"></knowledge-base>
   </div>
 </template>
 
@@ -32,6 +32,25 @@ export default {
       activeTopic: null,
     };
   },
+
+  provide() {
+    return {
+      topics: this.topics,
+    };
+  },
+
+  mounted() {
+    setTimeout(() => {
+      this.topics.push({
+        id: 'reactivity',
+        title: 'Reactivity',
+        description: 'How to use Vue to react to changes',
+        fullText:
+          'Reactivity is the key to building reactive UIs. It is the ability to update the UI when the data changes.',
+      });
+    }, 3000);
+  },
+
   methods: {
     activateTopic(topicId) {
       this.activeTopic = this.topics.find((topic) => topic.id === topicId);
@@ -44,12 +63,15 @@ export default {
 * {
   box-sizing: border-box;
 }
+
 html {
   font-family: sans-serif;
 }
+
 body {
   margin: 0;
 }
+
 section {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   margin: 2rem auto;
